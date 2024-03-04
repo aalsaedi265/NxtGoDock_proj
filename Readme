@@ -1,0 +1,5 @@
+
+# can subsitute compose.yaml with compose.js after using 
+npm install js-yaml
+node compose.js  # how it will be ran #
+
