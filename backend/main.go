@@ -3,22 +3,22 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-	"net/http"
-
-	// "fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gorilla/mux"
+	_ "github.com/lib/pq"
 )
 
 type User struct {
-	Id    	int    `json:"id"`
-	Name	string `json:"name"`
-	Email   string `json:"email"`
+	Id       int    `json:"id"`
+	Name		 string `json:"name"`
+	Email    string `json:"email"`
 }
 
-func main(){
+// main function
+func main() {
 	//connect to database
 	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -32,6 +32,7 @@ func main(){
 		log.Fatal(err)
 	}
 
+	// create router
 	router := mux.NewRouter()
 	router.HandleFunc("/api/go/users", getUsers(db)).Methods("GET")
 	router.HandleFunc("/api/go/users", createUser(db)).Methods("POST")
@@ -44,11 +45,9 @@ func main(){
 
 	// start server
 	log.Fatal(http.ListenAndServe(":8000", enhancedRouter))
-
 }
 
-func enableCORS(next http.Handler) http.Handler{
-	
+func enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Set CORS headers
 		w.Header().Set("Access-Control-Allow-Origin", "*") // Allow any origin
@@ -64,15 +63,18 @@ func enableCORS(next http.Handler) http.Handler{
 		// Pass down the request to the next middleware (or final handler)
 		next.ServeHTTP(w, r)
 	})
+
 }
 
-func jsonContentTypeMiddleware(next http.Handler) http.Handler{
+func jsonContentTypeMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Set JSON Content-Type
 		w.Header().Set("Content-Type", "application/json")
-		next.ServeHTTP(w,r)
+		next.ServeHTTP(w, r)
 	})
 }
 
+// get all users
 func getUsers(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		rows, err := db.Query("SELECT * FROM users")
@@ -97,6 +99,7 @@ func getUsers(db *sql.DB) http.HandlerFunc {
 	}
 }
 
+//get user by id
 func getUser(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
@@ -128,7 +131,8 @@ func createUser(db *sql.DB) http.HandlerFunc {
 	}
 }
 
-func updateUser(db *sql.DB) http.HandlerFunc{
+//update user
+func updateUser(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var u User
 		json.NewDecoder(r.Body).Decode(&u)
@@ -136,21 +140,25 @@ func updateUser(db *sql.DB) http.HandlerFunc{
 		vars := mux.Vars(r)
 		id := vars["id"]
 
+		// Execute the update query
 		_, err := db.Exec("UPDATE users SET name = $1, email = $2 WHERE id = $3", u.Name, u.Email, id)
 		if err != nil {
 			log.Fatal(err)
 		}
 
+		// Retrieve the updated user data from the database
 		var updatedUser User
-		err = db.QueryRow("SELECT id, name, email FROM users WHERE is = $1",  id).Scan(&updatedUser.Id, &updatedUser.Name, &updatedUser.Email)
-		if err != nil{
+		err = db.QueryRow("SELECT id, name, email FROM users WHERE id = $1", id).Scan(&updatedUser.Id, &updatedUser.Name, &updatedUser.Email)
+		if err != nil {
 			log.Fatal(err)
 		}
 
-		json.NewEncoder(w).Encode(updateUser)
+		// Send the updated user data in the response
+		json.NewEncoder(w).Encode(updatedUser)
 	}
 }
 
+// delete user
 func deleteUser(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
