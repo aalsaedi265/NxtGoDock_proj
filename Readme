@@ -46,3 +46,6 @@ based on the data base you have go find its driver for the backend code
 i am using go so will search "go database driver"+ database your using
 
 
+# npx create-next-app@latest --no-git
+create next front end application in the my project without connecting it to github
+I already have this thing conencted to a github and don't want confusion
