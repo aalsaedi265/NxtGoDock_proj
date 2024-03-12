@@ -29,7 +29,7 @@ start the engine    detach so service db  it only runs in the background and not
 # docker ps -a
 see the image container in the teriminal it not using GUI (its awsome use it)
 
-# docker exec -it db psql -U postgres
+# docker exec -it db psql -U ur_database_name  [docker exec -it db psql -U postgres -d postgres]
 docker exec: Runs a command in a running container.
 -it: Combines -i and -t flags; -i keeps STDIN open even if not attached, and -t 
 
