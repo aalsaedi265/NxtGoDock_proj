@@ -29,9 +29,22 @@ function UserInterface({ backendName }: UserInterfaceProps) {
   };
 
   const bgColor = backgroundColors[backendName as keyof typeof backgroundColors] || 'bg-gray-200';
-    const btnColor = buttonColors[backendName as keyof typeof buttonColors] || 'bg-gray-500 hover:bg-gray-600';
+  const btnColor = buttonColors[backendName as keyof typeof buttonColors] || 'bg-gray-500 hover:bg-gray-600';
 
-    
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/api/${backendName}/users`)
+        //latest users i add will be on TOP
+        setUsers(response.data.reverse())
+      } catch (error) {
+        console.error('Error fetching data: ', error)
+        }
+    }
+
+    fetchData()
+    //if emppty changes will be restFul only one time and not as need based on user ineraction 
+    },[backendName, apiUrl])
 }
 
 export default UserInterface
