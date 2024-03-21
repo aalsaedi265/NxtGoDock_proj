@@ -44,7 +44,13 @@ function UserInterface({ backendName }: UserInterfaceProps) {
 
     fetchData()
     //if emppty changes will be restFul only one time and not as need based on user ineraction 
-    },[backendName, apiUrl])
+  }, [backendName, apiUrl])
+  
+  return (
+    <div className={`user-interface ${bgColor} ${backendName} w-full max-w-md p-4 my-4 rounded shadow`}>
+      Test
+    </div>
+  )
 }
 
 export default UserInterface
