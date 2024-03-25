@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import CardComponent from "./card";
+import CardComponent from "./CardComponent";
 import Image from "next/image";
 
 interface User {
