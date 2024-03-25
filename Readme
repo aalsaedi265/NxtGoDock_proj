@@ -23,6 +23,10 @@ db:
       - mongodata:/data/db
 
 
+
+start this whole thing # docker-compose up --build
+
+
 # docker compose up -d db
 start the engine    detach so service db  it only runs in the background and not be locked until compleition, without it the reverse will be true.
 
@@ -30,6 +34,7 @@ start the engine    detach so service db  it only runs in the background and not
 see the image container in the teriminal it not using GUI (its awsome use it)
 
 # docker exec -it db psql -U ur_database_name  [docker exec -it db psql -U postgres -d postgres]
+
 docker exec: Runs a command in a running container.
 -it: Combines -i and -t flags; -i keeps STDIN open even if not attached, and -t 
 
@@ -40,6 +45,7 @@ psql: The command to run inside the container, for me, launching the PostgreSQL
 docker exec -it mysql_container mysql -u root -p
 docker exec -it sqlserver_container 
     if crednetail needed  /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P '<YourPassword>'
+
 
 # drivers
 based on the data base you have go find its driver for the backend code
