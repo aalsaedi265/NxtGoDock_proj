@@ -55,3 +55,13 @@ i am using go so will search "go database driver"+ database your using
 # npx create-next-app@latest --no-git
 create next front end application in the my project without connecting it to github
 I already have this thing conencted to a github and don't want confusion
+
+
+# REMOVE DOCKER STUFF
+docker ps -a
+
+docker stop <container_id>
+
+docker rm <container_id>
+
+docker rmi <image_id>  or with -f or just use GUI
