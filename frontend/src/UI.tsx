@@ -87,12 +87,14 @@ const UserInterface: React.FC<UserInterfaceProps> = ({ backendName }) => {
   }
 
   return (
-    <div className={`user-interface ${bgColor} ${backendName} w-full max-w-md p-4 my-4 rounded shadow`}>
-      <img src={`/${backendName}logo.svg`} alt={`${backendName} Logo`} className="w-20 h-20 mb-6 mx-auto" />
-      <h2 className="text-xl font-bold text-center text-white mb-6">{`${backendName.charAt(0).toUpperCase() + backendName.slice(1)} Backend`}</h2>
+    <div className={`user-interface ${bgColor} min-h-screen py-10 flex flex-col items-center`}>
+    <div className='text-center'>
+      <img src={`/${backendName}logo.svg`} alt={`${backendName} Logo`} className="w-32 h-32 mb-4 mx-auto" />
+      <h2 className="text-4xl font-bold text-gray-100 mb-8">{`${backendName.charAt(0).toUpperCase() + backendName.slice(1)} Backend`}</h2>
+    </div>
 
       {/* Create user */}
-      <form onSubmit={createUser} className="mb-6 p-4 bg-blue-100 rounded shadow">
+      <form onSubmit={createUser} className="mb-6 bg-opacity-50 bg-gray-700 p-6 rounded-lg shadow-lg">
         <input
           placeholder="Name"
           value={newUser.name}
@@ -105,7 +107,7 @@ const UserInterface: React.FC<UserInterfaceProps> = ({ backendName }) => {
           onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
           className="mb-2 w-full p-2 border border-gray-300 rounded"
         />
-        <button type="submit" className="w-full p-2 text-white bg-blue-500 rounded hover:bg-blue-600">
+        <button type="submit" className={`w-full p-3 mt-4 ${btnColor} text-white font-bold rounded-lg transition duration-300 ease-in-out transform hover:scale-105`}>
           Add User
         </button>
       </form>
